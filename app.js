@@ -8,10 +8,21 @@ app.set('port', 3000);
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server is listening on port ' + app.get('port'));
 })
-// Middleware
-app.use(function(req, res) {
-  res.end('zzzzzz');
-})
+// Middlewares
+app.use(function(req, res, next) {
+  if (req.url === '/') {
+    res.end('Hello!');
+  } else {
+    next();
+  }
+});
+app.use(function(req, res, next) {
+  if (req.url === '/test') {
+    res.end('TEST!');
+  } else {
+    next();
+  }
+});
 // var createError = require('http-errors');
 // var cookieParser = require('cookie-parser');
 // var logger = require('morgan');
