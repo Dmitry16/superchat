@@ -1,3 +1,5 @@
+let dotenv = require('dotenv').config();
+let errorHandler = require('errorhandler');
 var express = require('express');
 let http = require('http');
 var path = require('path');
@@ -17,12 +19,37 @@ app.use(function(req, res, next) {
   }
 });
 app.use(function(req, res, next) {
+  if (req.url === '/forbidden') {
+    next(new Error('aaaaaaaaaaa'));
+  } else {
+    next();
+  }
+});
+app.use(function(req, res, next) {
   if (req.url === '/test') {
     res.end('TEST!');
   } else {
     next();
   }
 });
+
+app.use(function(req, res) {
+  res.status(404).send('Page not found! :(');
+});
+
+app.use(errorHandler());
+
+app.use(function(err, req, res, next) {
+  if (app.get('env') === 'development') {
+    // let errorHandler = express.errorHandler();
+    // errorHandler(err, req, res, next);
+  } else {
+    res.end('goodby!');
+  }
+});
+
+console.log('env:::', process.env.NODE_ENV);
+
 // var createError = require('http-errors');
 // var cookieParser = require('cookie-parser');
 // var logger = require('morgan');
