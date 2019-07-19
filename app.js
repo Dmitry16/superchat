@@ -5,6 +5,7 @@ var express = require('express');
 var createError = require('http-errors');
 let http = require('http');
 var path = require('path');
+let log = require('libs/logger')(module);
 
 // in command line: node app -q w
 // console.log('argv::q:', config.get('q'));
