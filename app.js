@@ -14,7 +14,7 @@ var app = express();
 app.set('port', config.get('port'));
 
 http.createServer(app).listen(app.get('port'), function() {
-  console.log('Express server is listening on port ' + config.get('port'));
+  log.info('Express server is listening on port ' + config.get('port'));
 });
 // Middlewares
 app.use(function(req, res, next) {
