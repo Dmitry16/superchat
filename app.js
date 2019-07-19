@@ -1,15 +1,20 @@
-require('dotenv').config();
+console.log('NODE_ENV:::', process.env.NODE_ENV);
+
+let config = require('config');
 var express = require('express');
 var createError = require('http-errors');
 let http = require('http');
 var path = require('path');
 
+// in command line: node app -q w
+// console.log('argv::q:', config.get('q'));
+
 var app = express();
-app.set('port', 3000);
+app.set('port', config.get('port'));
 
 http.createServer(app).listen(app.get('port'), function() {
-  console.log('Express server is listening on port ' + app.get('port'));
-})
+  console.log('Express server is listening on port ' + config.get('port'));
+});
 // Middlewares
 app.use(function(req, res, next) {
   if (req.url === '/') {
@@ -38,8 +43,6 @@ app.use(function(req, res, next) {
 //     next();
 //   }
 // });
-
-console.log('env:::', process.env.NODE_ENV);
 
 // var cookieParser = require('cookie-parser');
 // var logger = require('morgan');
