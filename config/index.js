@@ -1,7 +1,7 @@
 let nconf = require('nconf');
 var path = require('path');
 
-// console.log('path::', __dirname);
+console.log('path::', __dirname);
 
 nconf.argv()
   .env()
