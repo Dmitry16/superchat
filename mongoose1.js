@@ -1,7 +1,7 @@
 let User = require('models/user').User;
 
 let username = 'toster';
-
+//username is changed (the total number of users is added) if there is one
 User.find({}, function(err, res) {
 
   if (res.length) {
