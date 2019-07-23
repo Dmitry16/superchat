@@ -3,6 +3,8 @@ let crypto = require('crypto');
 let mongoose = require('libs/mongoose'),
   Schema = mongoose.Schema;
 
+// mongoose.set('debug', true);
+
 let schema = new Schema({
   username: {
     type: String,

@@ -3,6 +3,6 @@ let config = require('config');
 
 console.log('libs/mongoose');
 
-mongoose.connect(config.get('mongoose:uri'), config.get('mongoose:options'));
+mongoose.connect(config.get('mongoose:uri'), { useNewUrlParser: true }, config.get('mongoose:options'));
 
 module.exports = mongoose;
