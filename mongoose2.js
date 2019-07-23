@@ -6,17 +6,49 @@ let User = require('models/user').User;
 // 3.create and save 3 users
 // 4.close connection
 
+let arrUsers = [
+  {
+    username: 'Vasya',
+    password: 'zzz'
+  },
+  {
+    username: 'Petya',
+    password: 'zzz'
+  },
+  {
+    username: 'Zhuzha',
+    password: 'zzz'
+  },
+];
+
 run();
 
 async function run() {
   try {
     let db = await openConnection();
     await dropDB(db);
-    await createUsers();
+    console.log('created Users::', await createUsers(arrUsers));
     closeConnection();
   } catch (err) {
     console.log('ERRRRORRR::', err);
   }
+}
+
+function createUsers(arrUsers) {
+  let createdUsers = arrUsers.map(user => new User({
+    username: user.username,
+    password: user.password
+  }));
+  // console.log('createdUsers::', createdUsers);
+  return Promise.all(createdUsers.map(user => user.save()));
+};
+
+function callback(err, res) {
+  if (err) {
+    console.log('ZZZZZZZZZZZ::', err);
+    return;
+  }
+  console.log('resresresresres:::', res);
 }
 
 function openConnection() {
@@ -39,37 +71,6 @@ function dropDB(db) {
   });
 };
 
-function createUsers() {
-  let vasya = new User({
-    username: 'Vasya',
-    password: 'zzz'
-  });
-  let petya = new User({
-    username: 'Petya',
-    password: 'xxx'
-  });
-  let zhuzha = new User({
-    username: 'Zhuzha',
-    password: 'zhzh'
-  });
-  return new Promise( resolve => {
-    vasya.save(function(err, user, res) {
-      if (err) throw err;
-      console.log(`user ${user.username} saved`)
-    });
-    petya.save(function(err, user, res) {
-      if (err) throw err;
-      console.log(`user ${user.username} saved`)
-    });
-    zhuzha.save(function(err, user, res) {
-      if (err) throw err;
-      console.log(`user ${user.username} saved`)
-      console.log('connection status::readyState::', mongoose.connection.readyState);
-      resolve();
-    });
-  });
-};
-
 function closeConnection() {
   mongoose.disconnect(function() {
     console.log('connection closed!!!readyState::', mongoose.connection.readyState);
@@ -77,3 +78,17 @@ function closeConnection() {
 };
 
 
+// vasya.save(function(err, user, res) {
+//   if (err) throw err;
+//   console.log(`user ${user.username} saved`)
+// });
+// petya.save(function(err, user, res) {
+//   if (err) throw err;
+//   console.log(`user ${user.username} saved`)
+// });
+// zhuzha.save(function(err, user, res) {
+//   if (err) throw err;
+//   console.log(`user ${user.username} saved`)
+//   console.log('connection status::readyState::', mongoose.connection.readyState);
+//   resolve();
+// });
