@@ -4,6 +4,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+let session = require('express-session');
+let config = require('config');
+let mongoose = require('libs/mongoose');
+let MongoStore = require('connect-mongo')(session);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,6 +23,21 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// console.log('mongoose.connection:::', mongoose.connection);
+app.use(session({
+  secret: config.get('session:secret'),
+  resave: config.get('session:resave'),
+  saveUninitialized: config.get('session:saveUninitialized'),
+  key: config.get('session:key'),
+  cookie: config.get('session:cookie'),
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
+
+app.use(function(req, res, next) {
+  req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+  res.send(`Number of visits: ${req.session.numberOfVisits}`);
+  next();
+});
 
 app.use(require('middleware/sendHttpError'));
 
@@ -45,11 +64,11 @@ app.use(function(err, req, res, next) {
   } else {
     // console.log('kuku!!!!!!!!!!!!!!');
     // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // res.locals.message = err.message;
+    // res.locals.error = req.app.get('env') === 'development' ? err : {};
     // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+    // res.status(err.status || 500);
+    // res.render('error');
   }
 });
 
