@@ -9,9 +9,9 @@ app.use(express.static(__dirname + '/public'));
 let server = http.createServer(app);
 server.listen('8080');
 
-let WebSocketServer = new WebSocketServer({server: server});
+let wsServer = new WebSocketServer({server: server});
 
-WebSocketServer.once('connection', function(ws) {
+wsServer.once('connection', function(ws) {
   let timer = setInterval(function() {
     ws.send(JSON.stringify(process.memoryUsage()), function(err) {
       if (err) throw err;
