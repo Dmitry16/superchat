@@ -1,0 +1,40 @@
+<head>
+  <style></style>
+
+  <script>
+    function updateStats(memusage) {
+      document.getElementById('rss').innerHTML = memusage.rss;
+      document.getElementById('heapTotal').innerHTML = memusage.heapTotal;
+      document.getElementById('heapUsed').innerHTML = memusage.heapUsed;
+    }
+
+    let ws = new WebSocket('ws://localhost:8080');
+
+    ws.onmessage = function(event) {
+      updateStats(JSON.parse(event.data));
+    }
+
+    ws.onopen = function() {
+      console.log('connection established');
+    }
+
+    ws.onclose = function(event) {
+      if (event.wasClean) {
+        console.log('the connection was closed clean');
+      } else {
+        console.log('connection was lost'); // e.g. the process was killed on server
+      }
+      console.log(`Code ${event.code} reason: ${event.reason}`);
+    };
+
+    ws.onerror = function(err) {
+      console.error('Error: ', error.message);
+    };
+  </script>
+</head>
+<body>
+  <strong>Server stats</strong><br>
+  <p id='rss'></p>
+  <p id='heapTotal'></p>
+  <p id='heapUsed'></p>
+</body>
