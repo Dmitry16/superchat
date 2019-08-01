@@ -8,8 +8,8 @@ let HttpError = require('error').HttpError;
   //   res.render('index');
   // });
 
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Zhuzha' });
+router.get('/index', function(req, res, next) {
+  res.render('index', { title: 'Index' });
 });
 
 router.get('/users', function(req, res, next) {

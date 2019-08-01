@@ -39,30 +39,29 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(require('middleware/sendHttpError'));
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
+app.use(require('middleware/sendHttpError'));
 // error handler
 app.use(function(err, req, res, next) {
-  // console.log('app.js::error handler::errrrrrrrrr')
+  console.log('app.js::error handler::errrrrrrrrr')
   if (typeof err === 'number') {
     // console.log('app.js:::typeof err === number')
     err = new HttpError(err);
   }
   if (err instanceof HttpError) {
-    // console.log('app.js:::err instanceof HttpError')
+    console.log('app.js:::err instanceof HttpError')
     res.sendHttpError(err);
   } else {
-    // console.log('kuku!!!!!!!!!!!!!!');
+    console.log('kuku from errorHandler!!!!!!!!!!!!!!');
     // set locals, only providing error in development
     // res.locals.message = err.message;
     // res.locals.error = req.app.get('env') === 'development' ? err : {};
