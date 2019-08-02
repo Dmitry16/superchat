@@ -10,6 +10,7 @@ let server = http.createServer(app);
 server.listen('8080');
 
 let wsServer = new WebSocketServer({server: server});
+
 // wsServer.once will permit only 1 client connected
 wsServer.on('connection', function(ws) {
   let timer = setInterval(function() {
