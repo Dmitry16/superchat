@@ -10,7 +10,7 @@ let mongoose = require('libs/mongoose');
 let MongoStore = require('connect-mongo')(session);
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// var usersRouter = require('./routes/users');
 
 var app = express();
 
@@ -52,16 +52,16 @@ app.use(function(req, res, next) {
 app.use(require('middleware/sendHttpError'));
 // error handler
 app.use(function(err, req, res, next) {
-  console.log('app.js::error handler::errrrrrrrrr')
+  // console.log('app.js::error handler::errrrrrrrrr')
   if (typeof err === 'number') {
     // console.log('app.js:::typeof err === number')
     err = new HttpError(err);
   }
   if (err instanceof HttpError) {
-    console.log('app.js:::err instanceof HttpError')
+    // console.log('app.js:::err instanceof HttpError')
     res.sendHttpError(err);
   } else {
-    console.log('kuku from errorHandler!!!!!!!!!!!!!!');
+    // console.log('kuku from errorHandler!!!!!!!!!!!!!!');
     // set locals, only providing error in development
     // res.locals.message = err.message;
     // res.locals.error = req.app.get('env') === 'development' ? err : {};

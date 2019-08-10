@@ -3,7 +3,7 @@ let util = require('util');
 let http = require('http');
 
 function HttpError(status, message) {
-  console.log('kuku from error/index::HttpError:::')
+  // console.log('error/index::HttpError:::')
   Error.apply(this, arguments);
   Error.captureStackTrace(this, HttpError);
 
